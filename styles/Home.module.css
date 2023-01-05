@@ -12,7 +12,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* padding: 6rem; */
   background: linear-gradient(
     to left bottom,
     rgb(255, 0, 0),
@@ -28,6 +27,7 @@
 .content {
   background-color: rgba(255, 255, 255, 0.8);
   width: 90%;
+  height: 100%;
   text-align: center;
   padding: 2rem;
   border-radius: 1rem;
@@ -61,6 +61,7 @@
   padding: 1rem;
   font-size: 1rem;
   color: black;
+  background-color: #fff;
 }
 .input {
   border: none;
