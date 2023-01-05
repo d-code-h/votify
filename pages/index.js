@@ -29,7 +29,7 @@ export default function Home({ matric, setMatric }) {
 
     const data = await resp.json();
     if (resp.status === 200) {
-      return router.push('/candidates');
+      return router.push('/voters');
     }
     setError(data.message);
   };
@@ -53,7 +53,7 @@ export default function Home({ matric, setMatric }) {
               >
                 <div className={styles.input_group}>
                   <input
-                    className={styles.input}
+                    className={active ? styles.input_active : styles.input}
                     autoComplete="off"
                     name="matric"
                     type="text"
@@ -63,11 +63,7 @@ export default function Home({ matric, setMatric }) {
                     onFocus={() => handleEvent()}
                     onBlur={() => handleBlur()}
                   />
-                  <label
-                    className={
-                      active ? styles.user_label_focus : styles.user_label
-                    }
-                  >
+                  <label className={active ? styles.label : styles.not_label}>
                     Matric Number
                   </label>
                   {error !== '' && <p className={styles.error}>{error}</p>}

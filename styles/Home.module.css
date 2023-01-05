@@ -12,7 +12,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 6rem;
+  /* padding: 6rem; */
   background: linear-gradient(
     to left bottom,
     rgb(255, 0, 0),
@@ -27,7 +27,8 @@
 
 .content {
   background-color: rgba(255, 255, 255, 0.8);
-  width: 100%;
+  width: 90%;
+  text-align: center;
   padding: 2rem;
   border-radius: 1rem;
 }
@@ -53,22 +54,24 @@
   position: relative;
 }
 
+.input,
+.input_active {
+  width: 100%;
+  letter-spacing: 0.2rem;
+  padding: 1rem;
+  font-size: 1rem;
+  color: black;
+}
 .input {
   border: none;
   border-bottom: 2px solid #008000;
   background: none;
-  padding: 1rem;
-  font-size: 1rem;
-  color: black;
-  width: 100%;
-  letter-spacing: 0.2rem;
 }
 
-.input:focus {
+.input_active {
   outline: none;
   --angle: 0deg;
   border: 3px solid;
-
   border-image: conic-gradient(
       from var(--angle),
       red,
@@ -85,8 +88,7 @@
 .full__width {
   width: 100%;
 }
-.user_label,
-.user_label_focus {
+.label {
   position: absolute;
   left: 15px;
   color: #000;
@@ -107,12 +109,20 @@
   inherits: false;
 }
 
-.user_label_focus {
+.label {
   transform: translateY(235%) scale(1);
   background-color: #e8e8e8;
   font-weight: bold;
   padding: 0 0.2em;
   color: #2196f3;
+}
+.not_label {
+  position: absolute;
+  left: 15px;
+  color: #000;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition: 350ms;
 }
 
 /* Submit Button */
@@ -120,7 +130,7 @@
   --color: #008000;
   font-family: inherit;
   display: block;
-  width: 8em;
+  min-width: 8em;
   height: 2.6em;
   line-height: 2.5em;
   margin: 30px auto 20px auto;
@@ -133,6 +143,7 @@
   border-radius: 6px;
   font-weight: 500;
   color: var(--color);
+  background-color: #fff;
 }
 
 .btn:before {
