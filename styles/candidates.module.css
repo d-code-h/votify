@@ -142,6 +142,7 @@
   border-radius: 0.3rem;
   width: 100%;
   background-color: transparent;
+  color: #000;
   height: 2rem;
   font-size: 0.9rem;
   border: 0.0625rem solid green;
@@ -180,6 +181,7 @@
   border-radius: 6px;
   font-weight: 500;
   color: var(--color);
+  background-color: #fff;
 }
 
 .btn:before {
