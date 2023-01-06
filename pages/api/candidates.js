@@ -20,9 +20,6 @@ export default async function Candidates(req, res) {
       !string.test(nick) ||
       position === ''
     ) {
-      console.log('A');
-      console.log(fname, lname, nick, position);
-
       // Return error
       return res.status(400).json({ message: 'All fields are required' });
     } else if (!matricPattern.test(matric)) {
@@ -31,9 +28,7 @@ export default async function Candidates(req, res) {
     } else {
       (async () => {
         try {
-          console.log(data);
           await client.connect();
-          console.log('Connected correctly to server');
           const db = client.db(dbName);
           const exist = await db
             .collection('candidates')
