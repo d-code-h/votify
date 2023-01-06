@@ -60,7 +60,7 @@ export default function Candidates() {
     } else if (data.img === '') {
       setError('Please upload a passport');
     } else {
-      const res = await fetch(process.env.HOST + '/api/candidates', {
+      const res = await fetch('/api/candidates', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

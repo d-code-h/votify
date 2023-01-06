@@ -5,7 +5,6 @@ const nextConfig = {
     domains: ['res.cloudinary.com'],
   },
   env: {
-    URL: 'http://localhost:3000',
     CLOUDNAME: 'david1',
     CLOUDFOLDER: 'votify',
     DB_URL:
