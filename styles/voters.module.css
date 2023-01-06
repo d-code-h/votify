@@ -1,0 +1,54 @@
+.content {
+  margin: auto;
+  width: 100%;
+  padding: 2rem;
+}
+.position {
+  margin: 0;
+  margin-left: 1rem;
+  padding: 0;
+  width: 40%;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2196f3;
+}
+.position * {
+  border-radius: 0.3rem;
+  width: 100%;
+  background-color: transparent;
+  color: #000;
+  height: 3rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  line-height: 1.5;
+  border: 0.0625rem solid green;
+}
+
+.position_select:focus {
+  border: none;
+  outline: 0.125rem solid green;
+}
+
+.position {
+  width: 100%;
+  margin: 1rem auto;
+  height: 2.5rem;
+}
+.position_select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 1rem auto;
+}
+@media screen and (min-width: 768px) {
+  .content {
+    width: 60%;
+    padding: 1rem;
+  }
+}

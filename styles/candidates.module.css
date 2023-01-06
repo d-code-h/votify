@@ -5,14 +5,6 @@
 .main {
   background-position: center;
   background-size: cover;
-}
-
-.access {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
   background: linear-gradient(
     to left bottom,
     rgb(255, 0, 0),
@@ -24,6 +16,29 @@
     rgb(255, 0, 0)
   );
 }
+
+.can_cont {
+  /* border: 2px solid red; */
+  width: 100%;
+  /* display: flex; */
+  /* width: 100%; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* flex-direction: column; */
+}
+/* .access {
+  padding: 1rem;
+  background: linear-gradient(
+    to left bottom,
+    rgb(255, 0, 0),
+    yellow,
+    rgb(0, 255, 0),
+    rgb(0, 255, 255),
+    rgb(0, 0, 255),
+    rgb(255, 0, 255),
+    rgb(255, 0, 0)
+  );
+} */
 
 .content {
   background-color: rgba(255, 255, 255, 0.8);
@@ -49,12 +64,16 @@
   -webkit-background-clip: text;
   background-clip: text;
 }
-.input_group {
+.input_group,
+.input_group_first {
   position: relative;
+}
+.input_group_first {
+  margin-top: 2rem;
 }
 
 .form > .input_group:nth-child(1) {
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .input {
@@ -91,7 +110,7 @@
 /* .user_label,
 .user_label_focus */
 
-.input + label {
+.label {
   position: absolute;
   left: 15px;
   color: #000;
@@ -112,7 +131,7 @@
   inherits: false;
 }
 
-.input:focus + label {
+.label_active {
   transform: translateY(235%) scale(1);
   background-color: #e8e8e8;
   font-weight: bold;
@@ -132,7 +151,6 @@
   margin-left: 1rem;
   padding: 0;
   width: 40%;
-  height: 1.8rem;
   font-size: 2rem;
   font-weight: bold;
   color: #2196f3;
@@ -143,8 +161,10 @@
   width: 100%;
   background-color: transparent;
   color: #000;
-  height: 2rem;
+  height: 3rem;
   font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  line-height: 1.5;
   border: 0.0625rem solid green;
 }
 .level *:focus,
@@ -159,10 +179,10 @@
   height: 2.5rem;
 }
 .position_select {
-  height: 2.5rem;
   padding: 0.5rem;
   font-size: 1rem;
 }
+
 /* Submit Button */
 .btn {
   --color: #008000;
@@ -216,15 +236,16 @@
 }
 
 .error {
+  text-align: center;
+  margin: auto;
   color: rgb(255, 0, 0);
-  margin-top: 0.5rem;
+  margin-top: 2rem;
+  border: 0.0625rem solid #ccc;
+  padding: 0.5rem;
+  font-weight: bold;
 }
 @media screen and (min-width: 768px) {
-  .full__width {
-    max-width: 60%;
-    margin: auto;
-  }
-  .content {
+  .can_con {
     max-width: 80%;
   }
 }

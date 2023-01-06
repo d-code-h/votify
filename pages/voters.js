@@ -1,6 +1,36 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/voters.module.css';
+import Card from '../components/Card';
 
-export default function voters() {
+export default function Voters() {
+  const [msg, setmsg] = useState('Loading...');
+  const [position, setposition] = useState('Most Influential');
+  const [candidates, setcandidates] = useState([]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  useEffect(() => {
+    const fetchVoters = async () => {
+      const res = await fetch(`/api/voters/${position}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      console.log(res.status);
+      if (res.status === 200) {
+        setcandidates(data['candidates']);
+      } else {
+        setcandidates([]);
+        setmsg(data['message']);
+      }
+    };
+    fetchVoters();
+  }, [position]);
   return (
     <>
       <Head>
@@ -9,8 +39,83 @@ export default function voters() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h1>Voters Page</h1>
+      <main className={styles.main}>
+        <div className={styles.content}>
+          <form action="#" method="GET" onSubmit={(e) => handleSubmit(e)}>
+            <div className={styles.position}>
+              <select
+                name="position"
+                className={styles.position_select}
+                value={position}
+                onChange={(e) => setposition(e.target.value)}
+              >
+                <option value="Most Influential">Most influential </option>
+                <option value="Best photographer of the year">
+                  Best photographer of the year
+                </option>
+                <option value="Most Social">Most Social</option>
+                <option value="Face of 100level">Face of 100Level</option>
+                <option value="Face of 200level">Face of 200Level</option>
+                <option value="Face of 300level">Face of 300Level</option>
+                <option value="Face of 400level">Face of 400Level</option>
+                <option value="Face of 500level">Face of 500Level</option>
+                <option value="Slim shady">Slim shady</option>
+                <option value="Mr ebony">Mr ebony</option>
+                <option value="Mrs ebony">Mrs ebony</option>
+                <option value="Fresher with prospect">
+                  Fresher with prospect
+                </option>
+                <option value="Most expensive">Most expensive</option>
+                <option value="Face of AEC">Face of AEC</option>
+                <option value="Face of AER">Face of AER</option>
+                <option value="Best class Rep">Best class Rep</option>
+                <option value="Most popular">Most popular</option>
+                <option value="Hour Glass">Hour Glass</option>
+                <option value="Best couple">Best couple</option>
+                <option value="Cool calm, and collected">
+                  Cool calm, and collected
+                </option>
+                <option value="Sport person of the Year">
+                  Sport person of the Year
+                </option>
+                <option value="Entertainer of the Year">
+                  Entertainer of the Year
+                </option>
+                <option value="Most political">Most political</option>
+                <option value="Final year student of the year">
+                  Final year student of the year
+                </option>
+                <option value="Mr money with the vibe">
+                  Mr money with the vibe
+                </option>
+              </select>
+            </div>
+          </form>
+
+          <div className={styles.voters}>
+            {candidates.length > 0 ? (
+              candidates.map((candidate) => (
+                <div className={styles.voter} key={candidate.matric}>
+                  <Card>
+                    <Image
+                      src={candidate.img}
+                      alt="Candidate Profile"
+                      width={160}
+                      height={160}
+                    />
+                    <h3>
+                      {candidate.fname} {candidate.lname}
+                    </h3>
+                  </Card>
+                </div>
+              ))
+            ) : (
+              <div className={styles.loading}>
+                <h1>{msg}</h1>
+              </div>
+            )}
+          </div>
+        </div>
       </main>
     </>
   );
