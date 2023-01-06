@@ -11,7 +11,7 @@ export default async function Candidates(req, res) {
 
     // Pattern
     const string = /^[a-zA-Z]+$/;
-    const matricPattern = /^[0-9]{4}\/[0-9]{1}\/[0-9]{5}(AR|AC)$/;
+    const matricPattern = /^[0-9]{4}\/(1|2)\/[0-9]{5}(AR|AC)$/;
     const numPat = /^[0-9]{3}$/;
 
     if (
@@ -32,9 +32,11 @@ export default async function Candidates(req, res) {
           const db = client.db(dbName);
           const exist = await db
             .collection('candidates')
-            .findOne({ matric: matric });
+            .findOne({ matric: matric, position: position });
           if (exist) {
-            return res.status(400).json({ message: 'Candidate already exist' });
+            return res.status(400).json({
+              message: 'You are already nominated for this position!',
+            });
           }
           await db.collection('candidates').insertOne(data);
           // Redirect to dashboard
