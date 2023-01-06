@@ -11,15 +11,18 @@ export default async function Candidates(req, res) {
 
     // Pattern
     const string = /^[a-zA-Z]+$/;
-    const matricPattern = /^[0-9]{4}\/[0-9]{1}\/[0-9]{5}(AR|EC)$/;
+    const matricPattern = /^[0-9]{4}\/[0-9]{1}\/[0-9]{5}(AR|AC)$/;
     const numPat = /^[0-9]{3}$/;
 
     if (
       !string.test(fname) ||
       !string.test(lname) ||
       !string.test(nick) ||
-      !string.test(position)
+      position === ''
     ) {
+      console.log('A');
+      console.log(fname, lname, nick, position);
+
       // Return error
       return res.status(400).json({ message: 'All fields are required' });
     } else if (!matricPattern.test(matric)) {
