@@ -18,7 +18,7 @@ export default async function Candidates(req, res) {
         if (candidates.length > 0) {
           return res.status(200).json({ candidates });
         } else {
-          return res.status(400).json({ message: 'No candidate found' });
+          return res.status(400).json({ message: 'No candidate' });
         }
       } catch (err) {
         console.log(err);
