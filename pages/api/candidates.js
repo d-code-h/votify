@@ -7,6 +7,7 @@ const dbName = process.env.DBNAME;
 export default async function Candidates(req, res) {
   if (req.method === 'POST') {
     const data = req.body;
+    dat['vote'] = 0;
     const { fname, lname, nick, matric, level, position, img } = data;
 
     // Pattern

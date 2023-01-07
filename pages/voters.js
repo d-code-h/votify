@@ -8,28 +8,44 @@ export default function Voters() {
   const [msg, setmsg] = useState('Loading...');
   const [position, setposition] = useState('Most Influential');
   const [candidates, setcandidates] = useState([]);
-  const [voted, setvoted] = useState('');
+  const [voted, setvoted] = useState(false);
+  const [votes, updatevotes] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleVote = (e) => {
-    const preVoted = candidates.find((c) => c.voted === true);
-    if (preVoted) {
-      preVoted.voted = false;
-    }
     const votedcandidate = candidates[e];
-    votedcandidate.voted =
-      votedcandidate.voted === undefined ? true : !votedcandidate.voted;
-    const updatedcandidates = candidates.map((candidate) => {
-      if (candidate._id === votedcandidate._id) {
-        return votedcandidate;
-      } else if (candidate.voted === true) {
-        candidate.voted = false;
-      }
-      return candidate;
+
+    if (
+      votes.indexOf(votedcandidate.matric) === -1 &&
+      candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
+    ) {
+      const exist = candidates.filter(
+        (c) => votes.indexOf(c.matric) !== -1
+      ).length;
+      updatevotes([...votes, votedcandidate.matric]);
+    } else {
+      updatevotes(votes.filter((v) => v !== votedcandidate.matric));
+    }
+  };
+
+  const handleVoteSubmission = async () => {
+    const res = await fetch('/api/voters', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ votes }),
     });
-    setcandidates(updatedcandidates);
+    const data = await res.json();
+
+    if (res.status === 200) {
+      setvoted(true);
+      setmsg(data.message);
+    } else {
+      setmsg(data.message);
+    }
   };
 
   useEffect(() => {
@@ -133,22 +149,26 @@ export default function Voters() {
                       <h4 className={styles.nick}>{candidate.nick}</h4>
                       <h4 className={styles.level}>{candidate.level} Level</h4>
                     </div>
-                    <button
-                      type="button"
-                      className={
-                        candidate.voted === undefined ||
-                        candidate.voted === false
-                          ? styles.profile_vote
-                          : styles.profile_voted
-                      }
-                      onClick={() => handleVote(i)}
-                    >
-                      Vote
-                      {candidate.voted === undefined ||
-                      candidate.voted === false
-                        ? ''
-                        : 'd'}
-                    </button>
+                    {!voted ? (
+                      <button
+                        type="button"
+                        className={
+                          votes.indexOf(candidate.matric) === -1
+                            ? styles.profile_vote
+                            : styles.profile_voted
+                        }
+                        onClick={() => handleVote(i)}
+                      >
+                        Vote
+                        {votes.indexOf(candidate.matric) === -1 ? '' : 'd'}
+                      </button>
+                    ) : (
+                      candidate.matric === '2020/4/00001AR' && (
+                        <button type="button" className={styles.profile_vote}>
+                          {candidate.vote} votes
+                        </button>
+                      )
+                    )}
                   </div>
                 </div>
               ))
@@ -157,9 +177,17 @@ export default function Voters() {
                 <h1>{msg}</h1>
               </div>
             )}
-            <button type="submit" className={styles.btn}>
-              Submit
-            </button>
+            {!voted && (
+              <button
+                type="submit"
+                className={styles.btn}
+                onClick={() => {
+                  handleVoteSubmission();
+                }}
+              >
+                Submit
+              </button>
+            )}
           </div>
         </div>
       </main>
