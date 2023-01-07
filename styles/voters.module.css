@@ -58,7 +58,7 @@
 }
 .profile {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 2rem;
   margin: 0;
   border-radius: 0.4rem;
@@ -189,6 +189,7 @@
     width: 48%;
     margin: 0;
     max-height: 13rem;
+    flex-wrap: wrap;
   }
 }
 @media screen and (min-width: 1024px) {
