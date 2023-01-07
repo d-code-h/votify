@@ -274,6 +274,9 @@ export default function Candidates() {
                             <option value="Mr money with the vibe">
                               Mr money with the vibe
                             </option>
+                            <option value="Entrepreneur of the year">
+                              Entrepreneur of the year
+                            </option>
                           </select>
                         </div>
 

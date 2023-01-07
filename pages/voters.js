@@ -8,8 +8,28 @@ export default function Voters() {
   const [msg, setmsg] = useState('Loading...');
   const [position, setposition] = useState('Most Influential');
   const [candidates, setcandidates] = useState([]);
+  const [voted, setvoted] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
+  };
+  const handleVote = (e) => {
+    const preVoted = candidates.find((c) => c.voted === true);
+    if (preVoted) {
+      preVoted.voted = false;
+    }
+    const votedcandidate = candidates[e];
+    votedcandidate.voted =
+      votedcandidate.voted === undefined ? true : !votedcandidate.voted;
+    const updatedcandidates = candidates.map((candidate) => {
+      if (candidate._id === votedcandidate._id) {
+        return votedcandidate;
+      } else if (candidate.voted === true) {
+        candidate.voted = false;
+      }
+      return candidate;
+    });
+    setcandidates(updatedcandidates);
   };
 
   useEffect(() => {
@@ -21,7 +41,6 @@ export default function Voters() {
         },
       });
       const data = await res.json();
-      console.log(res.status);
       if (res.status === 200) {
         setcandidates(data['candidates']);
       } else {
@@ -88,14 +107,17 @@ export default function Voters() {
                 <option value="Mr money with the vibe">
                   Mr money with the vibe
                 </option>
+                <option value="Entrepreneur of the year">
+                  Entrepreneur of the year
+                </option>
               </select>
             </div>
           </form>
 
           <div className={styles.voters}>
             {candidates.length > 0 ? (
-              candidates.map((candidate) => (
-                <div className={styles.profile} key={candidate.matric}>
+              candidates.map((candidate, i) => (
+                <div className={styles.profile} key={candidate._id}>
                   <Image
                     className={styles.profile_img}
                     src={candidate.img}
@@ -104,12 +126,29 @@ export default function Voters() {
                     height={160}
                   />
                   <div className={styles.profile_cont}>
-                    <h3>
-                      {candidate.fname} {candidate.lname}
-                    </h3>
-                    <p>{candidate.nick}</p>
-                    <p>{candidate.level} Level</p>
-                    <button></button>
+                    <div className={styles.profile_cont_msg}>
+                      <h2 className={styles.fname}>
+                        {candidate.fname} {candidate.lname}
+                      </h2>
+                      <h4 className={styles.nick}>{candidate.nick}</h4>
+                      <h4 className={styles.level}>{candidate.level} Level</h4>
+                    </div>
+                    <button
+                      type="button"
+                      className={
+                        candidate.voted === undefined ||
+                        candidate.voted === false
+                          ? styles.profile_vote
+                          : styles.profile_voted
+                      }
+                      onClick={() => handleVote(i)}
+                    >
+                      Vote
+                      {candidate.voted === undefined ||
+                      candidate.voted === false
+                        ? ''
+                        : 'd'}
+                    </button>
                   </div>
                 </div>
               ))
@@ -118,6 +157,9 @@ export default function Voters() {
                 <h1>{msg}</h1>
               </div>
             )}
+            <button type="submit" className={styles.btn}>
+              Submit
+            </button>
           </div>
         </div>
       </main>
