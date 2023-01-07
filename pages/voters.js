@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/voters.module.css';
-import Card from '../components/Card';
+// import Card from '../components/Card';
 
 export default function Voters() {
   const [msg, setmsg] = useState('Loading...');
@@ -95,18 +95,22 @@ export default function Voters() {
           <div className={styles.voters}>
             {candidates.length > 0 ? (
               candidates.map((candidate) => (
-                <div className={styles.voter} key={candidate.matric}>
-                  <Card>
-                    <Image
-                      src={candidate.img}
-                      alt="Candidate Profile"
-                      width={160}
-                      height={160}
-                    />
+                <div className={styles.profile} key={candidate.matric}>
+                  <Image
+                    className={styles.profile_img}
+                    src={candidate.img}
+                    alt="Candidate Profile"
+                    width={160}
+                    height={160}
+                  />
+                  <div className={styles.profile_cont}>
                     <h3>
                       {candidate.fname} {candidate.lname}
                     </h3>
-                  </Card>
+                    <p>{candidate.nick}</p>
+                    <p>{candidate.level} Level</p>
+                    <button></button>
+                  </div>
                 </div>
               ))
             ) : (

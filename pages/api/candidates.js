@@ -17,7 +17,7 @@ export default async function Candidates(req, res) {
     if (
       !string.test(fname) ||
       !string.test(lname) ||
-      !string.test(nick) ||
+      nick === '' ||
       position === ''
     ) {
       // Return error
