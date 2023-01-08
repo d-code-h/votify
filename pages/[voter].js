@@ -12,6 +12,8 @@ export default function Voters() {
   const [candidates, setcandidates] = useState([]);
   const [voted, setvoted] = useState(false);
   const [votes, updatevotes] = useState([]);
+  const [avote, updateavote] = useState('');
+  const [positions, updatepositions] = useState([]);
   const [user, setuser] = useState('loading');
   const [matric, setmatric] = useState('');
   const [sub_conf, setsub_conf] = useState(false);
@@ -22,17 +24,32 @@ export default function Voters() {
   };
   const handleVote = (e) => {
     const votedcandidate = candidates[e];
-
     if (
-      votes.indexOf(votedcandidate.matric) === -1 &&
-      candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
+      // votes.indexOf(votedcandidate.matric) === -1 &&
+      // candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
+      // candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
+      votes.length === 0 ||
+      votes.find(
+        (c) =>
+          c.position === position &&
+          c.matric !== votedcandidate.matric &&
+          c.clicked !== true
+      ) === undefined
     ) {
-      const exist = candidates.filter(
-        (c) => votes.indexOf(c.matric) !== -1
-      ).length;
-      updatevotes([...votes, votedcandidate.matric]);
+      console.log(true);
+      const newVotes = votes;
+      newVotes.push({ position: position, matric: votedcandidate.matric });
+      updatevotes(newVotes);
+      // candidates[e].clicked = true;
+      console.log(votes);
     } else {
-      updatevotes(votes.filter((v) => v !== votedcandidate.matric));
+      console.log(votes);
+      const newVotes = votes.filter(
+        (c) => c.position === position && c.matric !== votedcandidate.matric
+      );
+      // updatevotes(newVotes);
+      // // candidates[e].clicked = false;
+      // console.log(votes);
     }
   };
 
@@ -220,18 +237,27 @@ export default function Voters() {
                             {candidate.level} Level
                           </h4>
                         </div>
+                        {/* {console.log(votes)}
+                        {console.log(candidate)}
+                        {console.log(candidate.position)}
+                        {console.log(votes.length > 0)}
+                        {console.log(
+                          votes.length > 0 &&
+                            votes.filter(
+                              (c) => c.position === candidate.position
+                            )
+                        )} */}
                         {!voted ? (
                           <button
                             type="button"
                             className={
-                              votes.indexOf(candidate.matric) === -1
-                                ? styles.profile_vote
-                                : styles.profile_voted
+                              candidate.clicked
+                                ? styles.profile_voted
+                                : styles.profile_vote
                             }
                             onClick={() => handleVote(i)}
                           >
-                            Vote
-                            {votes.indexOf(candidate.matric) === -1 ? '' : 'd'}
+                            Vote{candidate.clicked ? 'd' : ''}
                           </button>
                         ) : (
                           voted &&
