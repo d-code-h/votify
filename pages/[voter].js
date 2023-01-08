@@ -70,7 +70,7 @@ export default function Voters() {
       }
     };
     userExist();
-  }, [router]);
+  });
   useEffect(() => {
     const fetchVoters = async () => {
       const res = await fetch(`/api/voters/${position}`, {
@@ -114,8 +114,8 @@ export default function Voters() {
             </p>
             {votes.length === 0 && (
               <p className={styles.sub_cont_err}>
-                <span className={styles.alarm}>NOTE:</span> You can't submit 0
-                vote.
+                <span className={styles.alarm}>NOTE:</span> You can&apos;t
+                submit 0 vote.
               </p>
             )}
             <div className={styles.sub_cont_btns}>
