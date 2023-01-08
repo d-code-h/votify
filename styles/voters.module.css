@@ -53,7 +53,6 @@
   flex-wrap: wrap;
   gap: 1rem;
   padding-top: 1rem;
-  /* gap: 2rem; */
   justify-content: space-between;
 }
 .profile {
@@ -62,12 +61,12 @@
   gap: 2rem;
   margin: 0;
   border-radius: 0.4rem;
-  /* border: 0.1rem solid green; */
   justify-content: space-between;
   padding: 0;
+  background-color: rgba(200, 200, 200, 0.2);
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   width: 100%;
-  height: 11rem;
+  height: 11.5rem;
   margin: auto;
 }
 
@@ -176,7 +175,136 @@
   background: #3a0ca3;
   transition: background 0s;
 }
+/* Successful vote */
+.main_voted {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(
+    to left bottom,
+    rgb(255, 0, 0),
+    yellow,
+    rgb(0, 255, 0),
+    rgb(0, 255, 255),
+    rgb(0, 0, 255),
+    rgb(255, 0, 255),
+    rgb(255, 0, 0)
+  );
+}
+.after_reg,
+.sub_conf,
+.sub_conf_hide {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.after_reg {
+  text-align: center;
+  font-size: 2rem;
+  font-style: italic;
+  border-radius: 1rem;
+  padding: 2rem;
+  line-height: 1.5;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.emoji {
+  font-size: 2rem;
+  color: red;
+}
 
+/* Submission Confirmation */
+
+.sub_conf,
+.sub_conf_hide {
+  background-color: rgba(200, 200, 200, 0.9);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 90%;
+  font-size: 1.5rem;
+  text-align: center;
+  padding: 1rem;
+  z-index: 100;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+}
+.sub_conf_hide {
+  display: none;
+}
+.sub_conf *,
+.sub_conf_hide * {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.sub_cont_heading {
+  font-size: 3rem;
+}
+
+.sub_cont_msg {
+  width: 80%;
+  margin: auto;
+  margin: 1rem auto;
+  line-height: 1.5;
+}
+.sub_cont_note {
+  display: block;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.sub_cont_btns {
+  display: flex;
+  justify-content: space-between;
+}
+.not_sure,
+.not_sure_err,
+.sure,
+.sure_err {
+  text-transform: uppercase;
+  --color: #008000;
+  padding: 0.5rem 0.8rem;
+  height: 2.6em;
+  margin: 30px auto 20px auto;
+  border: 2px solid var(--color);
+  transition: color 0.5s;
+  font-size: 17px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.not_sure:hover,
+.not_sure:focus,
+.sure:hover,
+.sure:focus {
+  font-weight: bold;
+}
+.not_sure {
+  background-color: #fff;
+  color: var(--color);
+}
+.sure,
+.sure_err {
+  background-color: var(--color);
+  color: #fff;
+}
+
+.not_sure_err,
+.sure_err {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.sub_cont_err {
+  color: red;
+  font-size: 1.2rem;
+  font-style: italic;
+  margin-top: 1rem;
+}
+.alarm {
+  font-weight: bold;
+}
 @media screen and (min-width: 768px) {
   .content {
     width: 100%;
