@@ -18,41 +18,14 @@ export default function Voters() {
   const [matric, setmatric] = useState('');
   const [sub_conf, setsub_conf] = useState(false);
   const [voterr, setvoterr] = useState(false);
-
+  const [alarm, setalarm] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleVote = (e) => {
-    const votedcandidate = candidates[e];
-    if (
-      // votes.indexOf(votedcandidate.matric) === -1 &&
-      // candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
-      // candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
-      votes.length === 0 ||
-      votes.find(
-        (c) =>
-          c.position === position &&
-          c.matric !== votedcandidate.matric &&
-          c.clicked !== true
-      ) === undefined
-    ) {
-      console.log(true);
-      const newVotes = votes;
-      newVotes.push({ position: position, matric: votedcandidate.matric });
-      updatevotes(newVotes);
-      // candidates[e].clicked = true;
-      console.log(votes);
-    } else {
-      console.log(votes);
-      const newVotes = votes.filter(
-        (c) => c.position === position && c.matric !== votedcandidate.matric
-      );
-      // updatevotes(newVotes);
-      // // candidates[e].clicked = false;
-      // console.log(votes);
-    }
+    console.log(e);
+    setalarm(e);
   };
-
   const handleVoteSubmission = async () => {
     setvoterr(true);
     if (matric !== '') {
@@ -106,6 +79,72 @@ export default function Voters() {
     };
     fetchVoters();
   }, [position]);
+
+  useEffect(() => {
+    if (candidates.length > 0) {
+      const votedcandidate = candidates[alarm];
+      if (votes.length === 0) {
+        const newVotes = votes;
+        newVotes.push({
+          position: position,
+          matric: votedcandidate.matric,
+          clicked: true,
+        });
+        updatevotes(newVotes);
+      } else {
+        for (let x of votes) {
+          if (x.position === position) {
+            if (x.matric === votedcandidate.matric) {
+              const newVoteData = votes.filter((c) => c.position !== position);
+              updatevotes(newVoteData);
+            } else {
+              const newVoteData = votes.filter((c) => c.position !== position);
+              newVoteData.push({
+                position: position,
+                matric: votedcandidate.matric,
+                clicked: true,
+              });
+              updatevotes(newVoteData);
+            }
+          }
+        }
+
+        // Previous
+        // if (
+        //   votes.length === 0 ||
+        //   votes.find((c) => c.position === position) === undefined
+        // ) {
+        //   console.log('In the first section');
+        //   const newVotes = votes;
+        //   newVotes.push({
+        //     position: position,
+        //     matric: votedcandidate.matric,
+        //     clicked: true,
+        //   });
+        //   updatevotes(newVotes);
+        // } else if (
+        //   votes.find(
+        //     (c) => c.position === position && c.matric !== votedcandidate.matric
+        //   ) !== undefined
+        // ) {
+        //   const newVoteData = votes.filter((c) => c.position !== position);
+        //   newVoteData.push({
+        //     position: position,
+        //     matric: votedcandidate.matric,
+        //     clicked: true,
+        //   });
+        //   votes.find((c) => c.position === position) !== undefined;
+        //   updatevotes(newVoteData);
+        // } else if (
+        //   votes.find(
+        //     (c) => c.position === position && c.matric === votedcandidate.matric
+        //   ) !== undefined
+        // ) {
+        //   const newVoteData = votes.filter((c) => c.position !== position);
+        //   updatevotes(newVoteData);
+      }
+    }
+  }, [alarm]);
   return (
     <>
       <Head>
@@ -237,38 +276,26 @@ export default function Voters() {
                             {candidate.level} Level
                           </h4>
                         </div>
-                        {/* {console.log(votes)}
-                        {console.log(candidate)}
-                        {console.log(candidate.position)}
-                        {console.log(votes.length > 0)}
-                        {console.log(
-                          votes.length > 0 &&
-                            votes.filter(
-                              (c) => c.position === candidate.position
-                            )
-                        )} */}
-                        {!voted ? (
+                        {votes.find(
+                          (c) =>
+                            c.matric === candidate.matric &&
+                            c.position === candidate.position
+                        ) !== undefined ? (
                           <button
                             type="button"
-                            className={
-                              candidate.clicked
-                                ? styles.profile_voted
-                                : styles.profile_vote
-                            }
+                            className={styles.profile_voted}
                             onClick={() => handleVote(i)}
                           >
-                            Vote{candidate.clicked ? 'd' : ''}
+                            Voted
                           </button>
                         ) : (
-                          voted &&
-                          candidate.matric === '2018/1/69686AE' && (
-                            <button
-                              type="button"
-                              className={styles.profile_vote}
-                            >
-                              {candidate.vote} votes
-                            </button>
-                          )
+                          <button
+                            type="button"
+                            className={styles.profile_vote}
+                            onClick={() => handleVote(i)}
+                          >
+                            Vote
+                          </button>
                         )}
                       </div>
                     </div>
