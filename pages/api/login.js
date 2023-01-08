@@ -1,3 +1,7 @@
+import { MongoClient } from 'mongodb';
+const url = process.env.DB_URL;
+const client = new MongoClient(url);
+
 export default async function handler(req, res) {
   if (
     req.method === 'POST' &&
@@ -5,13 +9,33 @@ export default async function handler(req, res) {
     req.body.matric !== ''
   ) {
     let matric = req.body.matric.toUpperCase().trim();
-    const end = matric.slice(-2);
-    const patt = new RegExp('^[0-9]{4}/[0-9]{1}/[0-9]{5}' + end + '$');
+    const patt = /^[0-9]{4}\/(1|2)\/[0-9]{5}(AR|AC)$/;
+    if (patt.test(matric)) {
+      (async () => {
+        try {
+          await client.connect();
+          const db = client.db(process.env.DBNAME);
 
-    if ((end === 'AR' || end === 'EC') && patt.test(matric)) {
-      return res.status(200).json({ matric: matric });
+          const voter = await db.collection('voters').findOne({ user: matric });
+          if (voter !== null) {
+            console.log('Seen');
+            return res
+              .status(400)
+              .json({ message: 'User already voted. Thank you!' });
+          } else {
+            return res.status(200).json({ matric: matric });
+          }
+        } catch (err) {
+          console.log(err);
+          console.log('Seen');
+          return res
+            .status(400)
+            .json({ message: 'Something went wrong! Please try again.' });
+        }
+      })();
+    } else {
+      return res.status(400).json({ message: 'Invalid matric number' });
     }
-    res.status(400).json({ message: 'Invalid matric number' });
   } else {
     return res.status(400).json({ message: 'Invalid matric number' });
   }

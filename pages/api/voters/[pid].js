@@ -23,7 +23,7 @@ export default async function Candidates(req, res) {
       } catch (err) {
         console.log(err);
         return res.status(400).json({
-          message: 'Something went wrong.',
+          message: 'Something went wrong. Please try again later.',
         });
       }
     })();

@@ -29,7 +29,10 @@ export default function Home({ matric, setMatric }) {
 
     const data = await resp.json();
     if (resp.status === 200) {
-      return router.push('/voters');
+      const y = data.matric.slice(0, 4);
+      const s = data.matric.slice(5, 6);
+      const c = data.matric.slice(7);
+      return router.push(`/voter?y=${y}&s=${s}&c=${c}`);
     }
     setError(data.message);
   };
@@ -44,7 +47,7 @@ export default function Home({ matric, setMatric }) {
       <main className={styles.main}>
         <section className={styles.access}>
           <div className={styles.content}>
-            <h1 className={styles.heading}>Award Night 1.0</h1>
+            <h1 className={styles.heading}>AET Award Night 1.0</h1>
             <section className={styles.full__width}>
               <form
                 action="/api/login"

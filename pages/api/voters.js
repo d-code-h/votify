@@ -6,17 +6,19 @@ const dbName = process.env.DBNAME;
 
 export default function voters(req, res) {
   if (req.method === 'POST') {
-    const { votes } = req.body;
+    const { votes, user } = req.body;
+    console.log(votes, user);
     (async () => {
       try {
         await client.connect();
         const db = client.db(dbName);
 
         for (let x of votes) {
-          const incr = await db
+          await db
             .collection('candidates')
             .updateOne({ matric: x }, { $inc: { vote: 1 } });
         }
+        await db.collection('voters').insertOne({ user: user });
         return res.status(200).json({ message: 'Success' });
       } catch (err) {
         console.log(err);
