@@ -7,7 +7,7 @@ const dbName = process.env.DBNAME;
 export default async function Candidates(req, res) {
   if (req.method === 'POST') {
     const data = req.body;
-    dat['vote'] = 0;
+    data['vote'] = 0;
     const { fname, lname, nick, matric, level, position, img } = data;
 
     // Pattern
@@ -28,6 +28,8 @@ export default async function Candidates(req, res) {
       return res.status(400).json({ message: 'Invalid matric number' });
     } else {
       (async () => {
+        console.log('Na her!de');
+
         try {
           await client.connect();
           const db = client.db(dbName);
