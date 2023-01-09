@@ -12,7 +12,7 @@ export default async function Candidates(req, res) {
 
     // Pattern
     const string = /^[a-zA-Z]+$/;
-    const matricPattern = /^[0-9]{4}\/(1|2)\/[0-9]{5}(AR|AC)$/;
+    const matricPattern = /^[0-9]{4}\/(1|2)\/[0-9]{5}(AR|AE)$/;
     const numPat = /^[0-9]{3}$/;
 
     if (

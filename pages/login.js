@@ -32,6 +32,10 @@ export default function Home({ matric, setMatric }) {
       const y = data.matric.slice(0, 4);
       const s = data.matric.slice(5, 6);
       const c = data.matric.slice(7);
+      if (data.post === 'Admin') {
+        const p = 'Admin';
+        return router.push(`/voter?y=${y}&s=${s}&c=${c}&p=Admin`);
+      }
       return router.push(`/voter?y=${y}&s=${s}&c=${c}`);
     }
     setError(data.message);
