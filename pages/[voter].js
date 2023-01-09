@@ -72,7 +72,6 @@ export default function Voters() {
         setmatric(query.y + '/' + query.s + '/' + query.c);
         if (query.p === 'Admin') {
           setPost(true);
-          console.log(post);
         }
       } else {
         router.push('/login');
@@ -80,9 +79,6 @@ export default function Voters() {
     };
     userExist();
     settosubmt(post || voted);
-    console.log(voted);
-    console.log(post);
-    console.log(tosubmit);
   });
   useEffect(() => {
     const fetchVoters = async () => {
