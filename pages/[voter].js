@@ -104,6 +104,72 @@ export default function Voters() {
     };
     fetchVoters();
   }, [position]);
+
+  useEffect(() => {
+    if (candidates.length > 0) {
+      const votedcandidate = candidates[alarm];
+      if (votes.length === 0) {
+        const newVotes = votes;
+        newVotes.push({
+          position: position,
+          matric: votedcandidate.matric,
+          clicked: true,
+        });
+        updatevotes(newVotes);
+      } else {
+        for (let x of votes) {
+          if (x.position === position) {
+            if (x.matric === votedcandidate.matric) {
+              const newVoteData = votes.filter((c) => c.position !== position);
+              updatevotes(newVoteData);
+            } else {
+              const newVoteData = votes.filter((c) => c.position !== position);
+              newVoteData.push({
+                position: position,
+                matric: votedcandidate.matric,
+                clicked: true,
+              });
+              updatevotes(newVoteData);
+            }
+          }
+        }
+
+        // Previous
+        // if (
+        //   votes.length === 0 ||
+        //   votes.find((c) => c.position === position) === undefined
+        // ) {
+        //   console.log('In the first section');
+        //   const newVotes = votes;
+        //   newVotes.push({
+        //     position: position,
+        //     matric: votedcandidate.matric,
+        //     clicked: true,
+        //   });
+        //   updatevotes(newVotes);
+        // } else if (
+        //   votes.find(
+        //     (c) => c.position === position && c.matric !== votedcandidate.matric
+        //   ) !== undefined
+        // ) {
+        //   const newVoteData = votes.filter((c) => c.position !== position);
+        //   newVoteData.push({
+        //     position: position,
+        //     matric: votedcandidate.matric,
+        //     clicked: true,
+        //   });
+        //   votes.find((c) => c.position === position) !== undefined;
+        //   updatevotes(newVoteData);
+        // } else if (
+        //   votes.find(
+        //     (c) => c.position === position && c.matric === votedcandidate.matric
+        //   ) !== undefined
+        // ) {
+        //   const newVoteData = votes.filter((c) => c.position !== position);
+        //   updatevotes(newVoteData);
+      }
+    }
+  }, [alarm]);
   return (
     <>
       <Head>
