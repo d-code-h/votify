@@ -11,6 +11,8 @@ export default function Voters() {
   const [candidates, setcandidates] = useState([]);
   const [voted, setvoted] = useState(false);
   const [votes, updatevotes] = useState([]);
+  const [avote, updateavote] = useState('');
+  const [positions, updatepositions] = useState([]);
   const [user, setuser] = useState('loading');
   const [matric, setmatric] = useState('');
   const [sub_conf, setsub_conf] = useState(false);
