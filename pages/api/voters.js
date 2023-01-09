@@ -13,10 +13,13 @@ export default function voters(req, res) {
         await client.connect();
         const db = client.db(dbName);
 
-        for (let x of votes) {
+        for (let x in votes) {
           await db
             .collection('candidates')
-            .updateOne({ matric: x }, { $inc: { vote: 1 } });
+            .updateOne(
+              { position: x, matric: votes[x] },
+              { $inc: { vote: 1 } }
+            );
         }
         await db.collection('voters').insertOne({ user: user });
         return res.status(200).json({ message: 'Success' });

@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/voters.module.css';
-// import Card from '../components/Card';
 
 export default function Voters() {
   const router = useRouter();
@@ -16,6 +15,9 @@ export default function Voters() {
   const [matric, setmatric] = useState('');
   const [sub_conf, setsub_conf] = useState(false);
   const [voterr, setvoterr] = useState(false);
+  const [votelength, updatevotelength] = useState({ token: 0 });
+  const [post, setPost] = useState(false);
+  const [tosubmit, settosubmt] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,18 +25,21 @@ export default function Voters() {
   const handleVote = (e) => {
     const votedcandidate = candidates[e];
 
-    if (
-      votes.indexOf(votedcandidate.matric) === -1 &&
-      candidates.filter((c) => votes.indexOf(c.matric) !== -1).length === 0
-    ) {
-      const exist = candidates.filter(
-        (c) => votes.indexOf(c.matric) !== -1
-      ).length;
-      updatevotes([...votes, votedcandidate.matric]);
-    } else {
-      updatevotes(votes.filter((v) => v !== votedcandidate.matric));
-    }
+    votes[position] === votedcandidate.matric
+      ? updatevotes({ ...votes, [position]: '' })
+      : updatevotes({ ...votes, [position]: votedcandidate.matric });
   };
+
+  useEffect(() => {
+    let num = 0;
+    for (let c in votes) {
+      if (votes[c] !== '') {
+        num = num + 1;
+      } else {
+      }
+    }
+    updatevotelength({ ...votelength, token: num });
+  }, [votes]);
 
   const handleVoteSubmission = async () => {
     setvoterr(true);
@@ -65,11 +70,19 @@ export default function Voters() {
       const query = router.query;
       if (query.y !== undefined) {
         setmatric(query.y + '/' + query.s + '/' + query.c);
+        if (query.p === 'Admin') {
+          setPost(true);
+          console.log(post);
+        }
       } else {
         router.push('/login');
       }
     };
     userExist();
+    settosubmt(post || voted);
+    console.log(voted);
+    console.log(post);
+    console.log(tosubmit);
   });
   useEffect(() => {
     const fetchVoters = async () => {
@@ -106,13 +119,13 @@ export default function Voters() {
           <div className={styles.sub_cont}>
             <h2 className={styles.sub_cont_heading}>Submission Confirmation</h2>
             <p className={styles.sub_cont_msg}>
-              You are about to vote for <b>{votes.length}</b> candidate
-              {votes.length > 1 ? 's' : ''} out of <b>26</b>.{' '}
+              You are about to vote for <b>{votelength['token']}</b> candidate
+              {votelength['token'] > 1 ? 's' : ''} out of <b>26</b>.{' '}
               <span className={styles.sub_cont_note}>
                 Are you okay with that?
               </span>
             </p>
-            {votes.length === 0 && (
+            {votelength['token'] === 0 && (
               <p className={styles.sub_cont_err}>
                 <span className={styles.alarm}>NOTE:</span> You can&apos;t
                 submit 0 vote.
@@ -130,7 +143,9 @@ export default function Voters() {
               </button>
               <button
                 className={
-                  votes.length !== 0 && !voterr ? styles.sure : styles.sure_err
+                  votelength['token'] !== 0 && !voterr
+                    ? styles.sure
+                    : styles.sure_err
                 }
                 type="button"
                 onClick={() => {
@@ -220,22 +235,21 @@ export default function Voters() {
                             {candidate.level} Level
                           </h4>
                         </div>
-                        {!voted ? (
+                        {!tosubmit ? (
                           <button
                             type="button"
                             className={
-                              votes.indexOf(candidate.matric) === -1
-                                ? styles.profile_vote
-                                : styles.profile_voted
+                              votes[position] === candidate.matric
+                                ? styles.profile_voted
+                                : styles.profile_vote
                             }
                             onClick={() => handleVote(i)}
                           >
                             Vote
-                            {votes.indexOf(candidate.matric) === -1 ? '' : 'd'}
+                            {votes[position] === candidate.matric ? 'd' : ''}
                           </button>
                         ) : (
-                          voted &&
-                          candidate.matric === '2018/1/69686AE' && (
+                          post && (
                             <button
                               type="button"
                               className={styles.profile_vote}
@@ -252,7 +266,7 @@ export default function Voters() {
                     <h1>{msg}</h1>
                   </div>
                 )}
-                {!voted && (
+                {!tosubmit && (
                   <button
                     type="submit"
                     className={styles.btn}
