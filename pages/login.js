@@ -36,7 +36,10 @@ export default function Home({ matric, setMatric }) {
         const p = 'Admin';
         return router.push(`/voter?y=${y}&s=${s}&c=${c}&p=Admin`);
       }
-      return router.push(`/voter?y=${y}&s=${s}&c=${c}`);
+      // return router.push(`/voter?y=${y}&s=${s}&c=${c}`);
+      // Block all other users
+      console.log('Seen always');
+      return setError('Voting time exceeded! You are not allowed to vote');
     }
     setError(data.message);
   };
