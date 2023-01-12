@@ -277,6 +277,9 @@ export default function Candidates() {
                             <option value="Entrepreneur of the year">
                               Entrepreneur of the year
                             </option>
+                            <option value="Most Outstanding">
+                              Most Outstanding
+                            </option>
                           </select>
                         </div>
 
