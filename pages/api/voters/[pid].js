@@ -14,7 +14,9 @@ export default async function Candidates(req, res) {
         const candidates = await db
           .collection('candidates')
           .find({ position: position })
+          .sort({ vote: -1 })
           .toArray();
+        console.log(candidates);
         if (candidates.length > 0) {
           return res.status(200).json({ candidates });
         } else {
