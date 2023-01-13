@@ -3,10 +3,10 @@ import { WidgetLoader } from 'react-cloudinary-upload-widget';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
-import styles from '../styles/candidates.module.css';
+import styles from '../../styles/candidates.module.css';
 // components
-import Card from '../components/Card';
-import Cloudinary from '../components/Cloudinary';
+import Card from '../../components/Card';
+import Cloudinary from '../../components/Cloudinary';
 
 export default function Candidates() {
   const router = useRouter();
